@@ -1,0 +1,92 @@
+Como se usa a include? simples:
+
+
+Remover os Avisos caso voce ainda nao esteja usando a | HXZL128_StrEncript |
+/*
+public OnGameModeInt()
+{
+    HXZL128_RemoveWarnings();
+    return 1;
+}
+*/
+
+primeiro crie uma varivel global ou pessoal para armazenar um valor mais a frente.
+/*
+Global: 
+- new Encript;
+
+Pessoal: 
+- new Encript[MAX_PLAYERS];
+*/
+
+Agora voce ira salvar e carregar essa variavel:
+/*
+Salvamento:
+
+    Global:
+    - HYPE_FSetInt("gfile", "Encript", Encript);
+
+    Pessoal:
+    - HYPE_FSetInt("pfile", "Encript", Encript[playerid]);
+
+Carregamento:
+
+    Global:
+    - Encript = HYPE_FGetInt("gfile", "Encript");
+
+    Pessoal:
+    - Encript[playerid] = HYPE_FGetInt("pfile", "Encript");
+*/
+
+Apos isso iremos dar um valor a essa variavel
+/*
+Global:
+- Encript = HXZL128_FormatEncript();
+
+Pessoal:
+- Encript[playerid] = HXZL128_FormatEncript();
+*/
+
+Hora de encriptar a string desejada:
+/*
+Global:
+- HXZL128_StrEncript(Encript, "string");
+
+Pessoal:
+- HXZL128_StrEncript(Encript[playerid], "string");
+*/
+
+Hora de verificar se as duas string armazenada bate com outra.
+irei usar de exemplo a callback | OnDialogResponse |
+/*
+Global:
+- if(!strcmp(HXZL128_StrEncript(Encript, inputtext), HXZL128_StrEncript(Encript, "string"), true))
+
+Pessoal:
+- if(!strcmp(HXZL128_StrEncript(Encript[playerid], inputtext), HXZL128_StrEncript(Encript[playerid], "string"), true))
+*/
+
+Oque acontece com a string? irei dar exemplo com a string | hypezzin |
+/*
+apos a string | hypezzin | passar pelo | HXZL128_StrEncript |
+
+ela vira:
+hhiykpmeXzqzsinn
+
+se voce perceber a escrito | hypezzin | 
+
+- h [h] i [y] k [p] m [e] X [z] q [z] s [i] n [n]
+-    h     y     p     e     z     z     i     n
+
+apos passa por uma outra funcao que substtui as letras a string | hypezzin | vira:
+
+- TIINAZgFQRZR/BUQ
+
+e por ultimo passa por uma funcao nativa de encriptacao | SHA256_PassHash | que se transforma em:
+
+- 5BE1CE458C82F5D7
+
+*/
+
+isso permite que voce evite algum hackeamento pois mesmo com a funcao | SHA256_PassHash | tem meios
+como o bruteforce para conseguir o valor de uma encriptacao.
